@@ -1,16 +1,22 @@
-import { MapPin, Droplets, Wind, Gauge, Eye } from "lucide-react";
+import { MapPin, Droplets, Wind, Gauge, Eye, Sun } from "lucide-react";
 import WeatherIcon from "./WeatherIcon";
+import weatherUtils from "../utils/weatherUtils";
 
-const CurrentWeatherCard = ({ weather, currentTime }) => {
+const CurrentWeatherCard = ({ weather, currentTime, uvData, airQuality }) => {
   if (!weather) return null;
 
+  const uvValue = uvData?.value || 6;
+  const aqiValue = airQuality?.list?.[0]?.main?.aqi || 2;
+
   return (
-    <div className="bg-white/20 backdrop-blur-x5 rounded-2xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/30 shadow-2xl">
+    <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/30 shadow-2xl">
+      {/* Header: Location and Time */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div className="flex items-center space-x-2 sm:space-x-3">
           <MapPin className="text-white/70" size={20} />
           <span className="text-white/70 text-sm sm:text-base lg:text-lg">
-            {weather.name}, {weather.sys.country}
+            {weather.name}
+            {weather.state ? `, ${weather.state}` : ""}, {weather.sys.country}
           </span>
         </div>
         <div className="text-white/70 text-sm sm:text-base lg:text-lg font-medium">
@@ -20,7 +26,7 @@ const CurrentWeatherCard = ({ weather, currentTime }) => {
           })}
         </div>
       </div>
-
+      {/* Main Weather Info */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <div>
           <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-1 sm:mb-2">
@@ -41,9 +47,8 @@ const CurrentWeatherCard = ({ weather, currentTime }) => {
           />
         </div>
       </div>
-
       {/* Weather Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
         {[
           {
             icon: <Droplets className="text-blue-300 mx-auto mb-2" size={20} />,
@@ -68,7 +73,7 @@ const CurrentWeatherCard = ({ weather, currentTime }) => {
         ].map((item, idx) => (
           <div
             key={idx}
-            className="bg-white/10 border border-white/30 shadow-xl  rounded-2xl p-4 text-center transition-all hover:scale-105 hover:bg-white/20"
+            className="bg-white/10 border border-white/30 shadow-xl rounded-2xl p-4 text-center transition-all hover:scale-105 hover:bg-white/20"
           >
             {item.icon}
             <div className="text-white/60 text-xs sm:text-sm">{item.label}</div>
@@ -78,7 +83,38 @@ const CurrentWeatherCard = ({ weather, currentTime }) => {
           </div>
         ))}
       </div>
+      {/* Highlight Metrics - Same Style */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {/* UV Index */}
+        <div className="bg-white/10 border border-white/30 shadow-xl rounded-2xl p-4 text-center transition-all hover:scale-105 hover:bg-white/20">
+          <Sun className="text-yellow-300 mx-auto mb-2" size={20} />
+          <div className="text-white/60 text-xs sm:text-sm">UV Index</div>
+          <div className="text-white text-sm sm:text-base lg:text-lg font-semibold">
+            {uvValue} - {weatherUtils.getUVIndexLabel(uvValue)}
+          </div>
+        </div>
+        {/* Air Quality */}
+        <div className="bg-white/10 border border-white/30 shadow-xl rounded-2xl p-4 text-center transition-all hover:scale-105 hover:bg-white/20">
+          <Wind className="text-green-300 mx-auto mb-2" size={20} />
+          <div className="text-white/60 text-xs sm:text-sm">Air Quality</div>
+          <div className="text-white text-sm sm:text-base lg:text-lg font-semibold">
+            {aqiValue} - {weatherUtils.getAirQualityLabel(aqiValue)}
+          </div>
+        </div>
+        {/* Sunrise & Sunset */}
+        <div className="bg-white/10 border border-white/30 shadow-xl rounded-2xl p-4 text-center transition-all hover:scale-105 hover:bg-white/20">
+          <Sun className="text-orange-300 mx-auto mb-2" size={20} />
+          <div className="text-white/60 text-xs sm:text-sm">
+            Sunrise & Sunset
+          </div>
+          <div className="text-white text-sm sm:text-base lg:text-lg font-semibold">
+            {weatherUtils.formatTime(weather.sys.sunrise)} /{" "}
+            {weatherUtils.formatTime(weather.sys.sunset)}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+
 export default CurrentWeatherCard;
