@@ -3,7 +3,6 @@ import { useWeatherData, useCurrentTime } from "./hooks/useWeatherData";
 import SearchBar from "./components/SearchBar";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
 import ForecastCard from "./components/ForecastCard";
-import HourlyForecast from "./components/HourlyForecast";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorMessage from "./components/ErrorMessage";
 import "./App.css";
@@ -68,9 +67,10 @@ const App = () => {
               <div className="xl:col-span-2">
                 <CurrentWeatherCard
                   weather={currentWeather}
-                  currentTime={currentTime}
+                  currentTime={new Date()}
                   uvData={uvData}
                   airQuality={airQuality}
+                  forecast={forecast} // Pass hourly forecast list here
                 />
               </div>
 
@@ -78,11 +78,6 @@ const App = () => {
               <div className="xl:col-span-1">
                 <ForecastCard forecast={forecast} />
               </div>
-            </div>
-
-            {/* Additional Weather Info */}
-            <div className="mb-6">
-              <HourlyForecast forecast={forecast} currentTime={currentTime} />
             </div>
           </>
         )}
