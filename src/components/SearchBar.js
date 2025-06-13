@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch, loading }) => {
       <div className="flex items-center justify-left mb-6 sm:mb-8">
         <div className="flex items-center space-x-3 sm:space-x-3">
           <img
-            src="/favicon.ico"
+            src={`${process.env.PUBLIC_URL}/favicon.ico`}
             alt="Atmos-Alert Logo"
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
           />
