@@ -1,70 +1,174 @@
-# Getting Started with Create React App
+# 🌤️ Atmos alert weather app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive weather application built with React that provides current weather conditions and forecasts using the OpenWeatherMap API.
 
-## Available Scripts
+![Weather App Screenshot](preview/image.png)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- 🌡️ **Current Weather**: Get real-time weather data for any city
+- 📅 **5-Day Forecast**: Extended weather predictions
+- 🗺️ **Geolocation Support**: Automatic location detection
+- 🔍 **City Search**: Search weather by city name
+- 📱 **Responsive Design**: Works on desktop, tablet, and mobile
+- 🌙 **Weather Icons**: Beautiful weather condition icons
+- ⚡ **Fast Loading**: Optimized performance
+- 🔒 **Secure**: Environment variables for API keys
 
-Runs the app in the development mode.\
+## 🚀 Demo
+
+[Live Demo](https://bhavin-pathak.github.io/atmos-alert/)
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (version 14.0 or higher)
+- **npm** (version 6.0 or higher) or **yarn**
+- **Git**
+- **OpenWeatherMap API Key** (free signup required)
+
+## 🛠️ Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Bhavin-Pathak/atmos-alert.git
+cd atmos-alert
+```
+
+### 2. Install Dependencies
+
+Using npm:
+
+```bash
+npm install
+```
+
+## 🔧 Environment Setup
+
+### 1. Get OpenWeatherMap API Key
+
+1. Visit [OpenWeatherMap](https://openweathermap.org/api)
+2. Sign up for a free account
+3. Navigate to API Keys section
+4. Copy your API key
+
+### 2. Create Environment File
+
+Create a `.env` file in the project root directory:
+
+```bash
+touch .env
+```
+
+### 3. Add Environment Variables
+
+Add the following to your `.env` file:
+
+```env
+# OpenWeatherMap API Configuration
+REACT_APP_WEATHER_API_KEY=your_openweathermap_api_key_here
+REACT_APP_WEATHER_BASE_URL=https://api.openweathermap.org/data/2.5
+```
+
+## 🏃‍♂️ Running the Application
+
+### Development Mode
+
+```bash
+npm start
+```
+
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🌐 API Reference
 
-### `npm test`
+### OpenWeatherMap API Endpoints Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Current Weather
 
-### `npm run build`
+```
+GET /weather?q={city}&appid={API_KEY}&units=metric
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 5-Day Forecast
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+GET /forecast?q={city}&appid={API_KEY}&units=metric
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Weather by Coordinates
 
-### `npm run eject`
+```
+GET /weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### WeatherAPI Class Methods
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+// Get current weather by city name
+await weatherAPI.getCurrentWeather("Vapi");
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+// Get 5-day forecast
+await weatherAPI.getForecast("Sagwara");
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+// Get weather by coordinates
+await weatherAPI.getWeatherByCoords(51.5074, -0.1278);
 
-## Learn More
+// Search cities
+await weatherAPI.searchCities("Daman");
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🛠️ Technologies Used
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Frontend:**
 
-### Code Splitting
+  - React 18
+  - JavaScript (ES6+)
+  - Tailwindcss
+  - HTML5
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **APIs:**
 
-### Analyzing the Bundle Size
+  - OpenWeatherMap API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Tools:**
 
-### Making a Progressive Web App
+  - Create React App
+  - npm/yarn
+  - Git
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. **Additional Weather Data:**
 
-### Advanced Configuration
+   - Humidity
+   - Wind Speed
+   - UV Index
+   - Air Quality
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📞 Support
 
-### Deployment
+If you have any questions or need help, please:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Check the [Issues](https://github.com/Bhavin-Pathak/atmos-alert/issues) page
+2. Create a new issue if your problem isn't already reported
+3. Contact: bhavinpathak29@gmail.com
 
-### `npm run build` fails to minify
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+6. Follow React best practices
+7. Use functional components with hooks
+8. Write clean, commented code
+9. Add tests for new features
+10. Update documentation
+
+## ⭐ If you found this project helpful, please give it a star!
