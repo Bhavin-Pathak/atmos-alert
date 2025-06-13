@@ -1,6 +1,10 @@
 const weatherAPI = {
-  API_KEY: "5025dae397c52e181519b4b474b225c5", // Your OpenWeatherMap API key
-  BASE_URL: "https://api.openweathermap.org/data/2.5", // Base URL for OpenWeatherMap API
+  // Make sure to set these in your .env file or environment variables
+  API_KEY: process.env.REACT_APP_ATMOS_API_KEY || "",
+  // Base URL for the OpenWeatherMap API
+  BASE_URL:
+    process.env.REACT_APP_ATMOS_BASE_URL ||
+    "https://api.openweathermap.org/data/2.5",
 
   // Fetch current weather by city name
   getCurrentWeather: async (city) => {
