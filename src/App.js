@@ -5,6 +5,7 @@ import CurrentWeatherCard from "./components/CurrentWeatherCard";
 import ForecastCard from "./components/ForecastCard";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorMessage from "./components/ErrorMessage";
+import Footer from "./components/Footer";
 import "./App.css";
 
 const App = () => {
@@ -42,7 +43,8 @@ const App = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-900 to-purple-900 min-h-screen text-white scrollbar-hide">
+    <div className="bg-gradient-to-r from-blue-900 to-purple-900 min-h-screen text-white scrollbar-hide  content-center">
+      {/* Header */}
       <div className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 max-w-7xl">
         {/* Search Bar */}
         <SearchBar onSearch={handleSearch} loading={loading} />
@@ -68,6 +70,8 @@ const App = () => {
           </div>
         )}
       </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
