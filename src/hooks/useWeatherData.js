@@ -9,33 +9,43 @@ const useWeatherData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchWeatherData = useCallback(async (city) => {
-    setLoading(true);
-    setError(null);
+  const fetchWeatherData = useCallback(
+    async (city = null, lat = null, lon = null) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const [current, forecastData] = await Promise.all([
-        weatherAPI.getCurrentWeather(city),
-        weatherAPI.getForecast(city),
-      ]);
+      try {
+        let current;
+        let forecastData;
 
-      setCurrentWeather(current);
-      setForecast(forecastData);
-
-      if (current.coord) {
-        const [uv, air] = await Promise.all([
-          weatherAPI.getUVIndex(current.coord.lat, current.coord.lon),
-          weatherAPI.getAirQuality(current.coord.lat, current.coord.lon),
-        ]);
-        setUvData(uv);
-        setAirQuality(air);
+        if (lat && lon) {
+          // Fetch using coordinates
+          current = await weatherAPI.getWeatherByCoords(lat, lon);
+          forecastData = await weatherAPI.getForecast(current.name); // fallback to city name from response
+        } else {
+          // Fetch using city name
+          current = await weatherAPI.getCurrentWeather(city);
+          forecastData = await weatherAPI.getForecast(city);
+        }
+        setCurrentWeather(current);
+        setForecast(forecastData);
+        if (current.coord) {
+          const [uv, air] = await Promise.all([
+            weatherAPI.getUVIndex(current.coord.lat, current.coord.lon),
+            weatherAPI.getAirQuality(current.coord.lat, current.coord.lon),
+          ]);
+          setUvData(uv);
+          setAirQuality(air);
+        }
+      } catch (err) {
+        console.error("Weather Fetch Error:", err);
+        setError("Failed to fetch weather data.");
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []); // ✅ stable reference
+    },
+    []
+  );
 
   return {
     currentWeather,
