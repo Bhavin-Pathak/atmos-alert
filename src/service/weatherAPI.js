@@ -1,68 +1,77 @@
 const weatherAPI = {
-  API_KEY: "5025dae397c52e181519b4b474b225c5",
-  BASE_URL: "https://api.openweathermap.org/data/2.5",
+  API_KEY: "5025dae397c52e181519b4b474b225c5", // Your OpenWeatherMap API key
+  BASE_URL: "https://api.openweathermap.org/data/2.5", // Base URL for OpenWeatherMap API
 
+  // Fetch current weather by city name
   getCurrentWeather: async (city) => {
     try {
       const response = await fetch(
         `${weatherAPI.BASE_URL}/weather?q=${city}&appid=${weatherAPI.API_KEY}&units=metric`
       );
-      console.log("Fetching current weather for:", response.url);
       if (!response.ok) throw new Error("Weather data not found");
-      console.log("Current Response From API", response);
       return await response.json();
     } catch (error) {
       console.error("Error fetching current weather:", error);
       return weatherAPI.getMockCurrentWeather();
     }
   },
-
+  // Fetch 5-day weather forecast for a city
   getForecast: async (city) => {
     try {
       const response = await fetch(
         `${weatherAPI.BASE_URL}/forecast?q=${city}&appid=${weatherAPI.API_KEY}&units=metric`
       );
-      console.log("Fetching forecast for:", response.url);
       if (!response.ok) throw new Error("Forecast data not found");
-      console.log("Forecast Response From API", response);
       return await response.json();
     } catch (error) {
       console.error("Error fetching forecast:", error);
       return weatherAPI.getMockForecast();
     }
   },
-
+  // Fetch UV index by coordinates (latitude and longitude)
   getUVIndex: async (lat, lon) => {
     try {
       const response = await fetch(
         `${weatherAPI.BASE_URL}/uvi?lat=${lat}&lon=${lon}&appid=${weatherAPI.API_KEY}`
       );
       if (!response.ok) throw new Error("UV data not found");
-      console.log("UV Response From API", response);
       return await response.json();
     } catch (error) {
       console.error("Error fetching UV data:", error);
       return { value: 6 }; // Mock UV index
     }
   },
-
+  // Fetch air quality data by coordinates (latitude and longitude)
   getAirQuality: async (lat, lon) => {
     try {
       const response = await fetch(
         `${weatherAPI.BASE_URL}/air_pollution?lat=${lat}&lon=${lon}&appid=${weatherAPI.API_KEY}`
       );
       if (!response.ok) throw new Error("Air quality data not found");
-      console.log("Air Quality Response From API", response);
       return await response.json();
     } catch (error) {
       console.error("Error fetching air quality:", error);
       return { list: [{ main: { aqi: 2 }, components: { pm2_5: 15 } }] }; // Mock air quality
     }
   },
+  // Fetch weather data by coordinates (latitude and longitude)
+  getWeatherByCoords: async (lat, lon) => {
+    try {
+      const response = await fetch(
+        `${weatherAPI.BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${weatherAPI.API_KEY}&units=metric`
+      );
+      if (!response.ok)
+        throw new Error("Weather data not found by coordinates");
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching weather by coordinates:", error);
+      return weatherAPI.getMockCurrentWeather();
+    }
+  },
 
-  // Mock data for demo (when API key is not set or API fails)
+  // Mock data for demo (when API key is not set or API fails to respond)
   getMockCurrentWeather: () => ({
-    name: "Vapi",
+    name: "Sagwara",
     sys: { country: "IN" },
     main: {
       temp: 39,
@@ -84,7 +93,7 @@ const weatherAPI = {
     visibility: 10000,
     dt: Date.now() / 1000,
   }),
-
+  // Mock forecast data for demo
   getMockForecast: () => ({
     list: [
       {
