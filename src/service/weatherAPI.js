@@ -69,10 +69,13 @@ const weatherAPI = {
     }
   },
 
-  // Mock data for demo (when API key is not set or API fails to respond)
   getMockCurrentWeather: () => ({
     name: "Sagwara",
-    sys: { country: "IN" },
+    sys: {
+      country: "IN",
+      sunrise: Math.floor(Date.now() / 1000) - 3600, // 1 hour ago
+      sunset: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
+    },
     main: {
       temp: 39,
       feels_like: 35,
@@ -93,41 +96,26 @@ const weatherAPI = {
     visibility: 10000,
     dt: Date.now() / 1000,
   }),
-  // Mock forecast data for demo
-  getMockForecast: () => ({
-    list: [
-      {
-        dt: Date.now() / 1000 + 86400,
-        main: { temp_max: 25, temp_min: 18, humidity: 60 },
-        weather: [{ main: "Clear", icon: "01d" }],
-        pop: 0.1,
-      },
-      {
-        dt: Date.now() / 1000 + 172800,
-        main: { temp_max: 28, temp_min: 20, humidity: 55 },
-        weather: [{ main: "Clear", icon: "01d" }],
-        pop: 0,
-      },
-      {
-        dt: Date.now() / 1000 + 259200,
-        main: { temp_max: 24, temp_min: 17, humidity: 75 },
-        weather: [{ main: "Rain", icon: "10d" }],
-        pop: 0.8,
-      },
-      {
-        dt: Date.now() / 1000 + 345600,
-        main: { temp_max: 26, temp_min: 19, humidity: 70 },
-        weather: [{ main: "Clouds", icon: "03d" }],
-        pop: 0.2,
-      },
-      {
-        dt: Date.now() / 1000 + 432000,
-        main: { temp_max: 23, temp_min: 16, humidity: 80 },
-        weather: [{ main: "Thunderstorm", icon: "11d" }],
-        pop: 0.9,
-      },
-    ],
-  }),
+
+  getMockForecast: () => {
+    const now = Math.floor(Date.now() / 1000);
+    return {
+      list: Array.from({ length: 40 }).map((_, index) => {
+        const dt = now + index * 3 * 3600; // 3-hour intervals
+        return {
+          dt,
+          main: {
+            temp: 28 + Math.random() * 5,
+            temp_min: 26 + Math.random() * 3,
+            temp_max: 30 + Math.random() * 3,
+            humidity: 50 + Math.floor(Math.random() * 20),
+          },
+          weather: [{ main: "Clear", icon: "01d" }],
+          pop: Math.random(),
+        };
+      }),
+    };
+  },
 };
 
 export default weatherAPI;
