@@ -17,15 +17,30 @@ const App = () => {
     error,
     fetchWeatherData,
   } = useWeatherData();
+
   const currentTime = useCurrentTime();
 
   useEffect(() => {
-    // Load default city weather on app start
-    fetchWeatherData("Vapi");
+    // Try to get weather from user's current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchWeatherData(null, latitude, longitude); // city is null, use lat/lon
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          fetchWeatherData("Vapi"); // fallback city if geolocation fails
+        }
+      );
+    } else {
+      console.warn("Geolocation not supported");
+      fetchWeatherData("Vapi"); // fallback city if geolocation fails
+    }
   }, [fetchWeatherData]);
 
   const handleSearch = (city) => {
-    fetchWeatherData(city);
+    fetchWeatherData(city); // manual search uses city name
   };
 
   return (
@@ -38,12 +53,16 @@ const App = () => {
               <h1 className="text-white text-xl sm:text-2xl font-bold">
                 Atmos-Alert{" "}
               </h1>
-
               <p className="text-white/70 text-xs sm:text-sm">
                 {currentTime.toLocaleDateString([], {
                   weekday: "long",
                   month: "long",
                   day: "numeric",
+                })}
+                {" - "}
+                {currentTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
               </p>
             </div>
@@ -63,18 +82,15 @@ const App = () => {
         {!loading && !error && (
           <>
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
-              {/* Main Weather Card */}
               <div className="xl:col-span-2">
                 <CurrentWeatherCard
                   weather={currentWeather}
                   currentTime={new Date()}
                   uvData={uvData}
                   airQuality={airQuality}
-                  forecast={forecast} // Pass hourly forecast list here
+                  forecast={forecast}
                 />
               </div>
-
-              {/* Forecast Card */}
               <div className="xl:col-span-1">
                 <ForecastCard forecast={forecast} />
               </div>
@@ -83,7 +99,7 @@ const App = () => {
         )}
       </div>
 
-      {/* Custom Scrollbar Styles */}
+      {/* Hide Scrollbar */}
       <style jsx>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
@@ -96,4 +112,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;
