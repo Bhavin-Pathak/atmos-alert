@@ -2,13 +2,7 @@ import { MapPin, Droplets, Wind, Gauge, Eye, Sun } from "lucide-react";
 import WeatherIcon from "./WeatherIcon";
 import weatherUtils from "../utils/weatherUtils";
 
-const CurrentWeatherCard = ({
-  weather,
-  currentTime,
-  uvData,
-  airQuality,
-  forecast,
-}) => {
+const CurrentWeatherCard = ({ weather, uvData, airQuality, forecast }) => {
   if (!weather) return null;
 
   const uvValue = uvData?.value || 6;
@@ -156,10 +150,15 @@ const CurrentWeatherCard = ({
             <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
               {(() => {
                 const today = new Date().toDateString();
-                const todayEntries = forecast.list.filter(
+                let entries = forecast.list.filter(
                   (item) => new Date(item.dt * 1000).toDateString() === today
                 );
-                return todayEntries.slice(0, 12).map((hour, index) => (
+
+                if (entries.length === 0) {
+                  entries = forecast.list.slice(0, 12);
+                }
+
+                return entries.map((hour, index) => (
                   <div
                     key={index}
                     className="bg-white/10 border border-white/30 shadow-xl rounded-lg p-2 text-center transition-all duration-200 hover:scale-[1.02] hover:bg-white/20 active:scale-95 flex-shrink-0 min-w-[72px]"
@@ -188,10 +187,15 @@ const CurrentWeatherCard = ({
           <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 sm:gap-3">
             {(() => {
               const today = new Date().toDateString();
-              const todayEntries = forecast.list.filter(
+              let entries = forecast.list.filter(
                 (item) => new Date(item.dt * 1000).toDateString() === today
               );
-              return todayEntries.slice(0, 12).map((hour, index) => (
+
+              if (entries.length === 0) {
+                entries = forecast.list.slice(0, 12);
+              }
+
+              return entries.map((hour, index) => (
                 <div
                   key={index}
                   className="bg-white/10 border border-white/30 shadow-xl rounded-lg lg:rounded-xl p-2 sm:p-3 text-center transition-all duration-200 hover:scale-[1.02] hover:bg-white/20 active:scale-95"
