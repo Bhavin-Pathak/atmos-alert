@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/atmos-alert/static/css/main.5f641b1c.css",
+    "main.js": "/atmos-alert/static/js/main.f361acf6.js",
+    "static/js/453.73669d16.chunk.js": "/atmos-alert/static/js/453.73669d16.chunk.js",
+    "index.html": "/atmos-alert/index.html",
+    "main.5f641b1c.css.map": "/atmos-alert/static/css/main.5f641b1c.css.map",
+    "main.f361acf6.js.map": "/atmos-alert/static/js/main.f361acf6.js.map",
+    "453.73669d16.chunk.js.map": "/atmos-alert/static/js/453.73669d16.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5f641b1c.css",
+    "static/js/main.f361acf6.js"
+  ]
+}
