@@ -15,10 +15,6 @@ A modern, responsive weather application built with React that provides current 
 - ⚡ **Fast Loading**: Optimized performance
 - 🔒 **Secure**: Environment variables for API keys
 
-## 🚀 Demo
-
-[Live Demo](https://bhavin-pathak.github.io/atmos-alert/)
-
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
