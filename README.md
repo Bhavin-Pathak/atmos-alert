@@ -1,6 +1,6 @@
 # 🌤️ Atmos alert weather app
 
-A modern, responsive weather application built with React that provides current weather conditions and forecasts using the OpenWeatherMap API.
+**Atmos-alert** a modern, responsive weather application built with React that provides current weather conditions and forecasts using the OpenWeatherMap API.
 
 ![Weather App Screenshot](preview/image.png)
 
